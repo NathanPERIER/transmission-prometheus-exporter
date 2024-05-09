@@ -32,18 +32,20 @@ export class TransmissionServer {
 
     public readonly label: string;
     public readonly base_url: string;
-    public readonly user: string;
-    private readonly auth_header: string;
+    private readonly auth_header: string | null;
     private session_id: string = '';
 
-    public constructor(label: string, username: string, password: string, base_url: string) {
+    public constructor(label: string, user_pass: {username: string, password: string} | null, base_url: string) {
         if(!base_url.endsWith('/')) {
             base_url += '/';
         }
         this.label = label;
         this.base_url = base_url;
-        this.user = username;
-        this.auth_header = "Basic " + Buffer.from(`${username}:${password}`).toString('base64');
+        if(user_pass === null) {
+            this.auth_header = null;
+        } else {
+            this.auth_header = "Basic " + Buffer.from(`${user_pass.username}:${user_pass.password}`).toString('base64');
+        }
     }
 
     private async raw_rpc_call<RetType>(rpc_method: string): Promise<[ApiStatus,RetType?]> {

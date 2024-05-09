@@ -12,7 +12,7 @@ async function get_document(server: TransmissionServer): Promise<PrometheusDocum
 
     let document = new PrometheusDocument();
 
-    document.add_gauge('transmission_server_url', 'Associates a server\'s name/label/identifier to a base url.', [[{'server': SERVER.label, 'base_url': SERVER.base_url, 'user': SERVER.user}, 1]]);
+    document.add_gauge('transmission_server_url', 'Associates a server\'s name/label/identifier to a base url.', [[{'server': SERVER.label, 'base_url': SERVER.base_url}, 1]]);
 
     document.add_gauge('transmission_status', 'Status of the connection to the server.', [[{'server': SERVER.label}, metrics.status]]);
 
